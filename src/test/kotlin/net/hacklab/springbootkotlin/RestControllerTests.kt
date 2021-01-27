@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.boot.test.web.client.getForEntity
-import org.springframework.http.HttpEntity
-import org.springframework.http.HttpHeaders
-import org.springframework.http.HttpMethod
-import org.springframework.http.HttpStatus
+import org.springframework.http.*
 import org.springframework.web.client.RestTemplate
 import java.util.*
 
@@ -28,16 +25,18 @@ class RestControllerTests(@Autowired val restTemplate: TestRestTemplate) {
     fun `assert Rest Controller authenticated to Hello World`(){
         println(">> Rest Controller Authenticated With Hello World")
 
-        val entity=restTemplate.exchange("http://localhost:8080/greeting",
+        val entity=restTemplate.exchange("/greeting",
             HttpMethod.GET,HttpEntity<String>(createHttpHeaders("admin","admin"))
-            , String.class )
-        assertThat(entity.statusCode).isEqualTo(HttpStatus.OK))
+            , String.javaClass )
+        assertThat(entity.statusCode).isEqualTo(HttpStatus.OK)
+        assertThat(entity.body).isNotNull()
     }
 
     fun createHttpHeaders(user:String, pass:String):HttpHeaders {
         var headers=HttpHeaders()
         headers.add("Authorization",
             "Basic " + Base64.getEncoder().encodeToString("$user:$pass".toByteArray()))
+
         return headers
     }
 
