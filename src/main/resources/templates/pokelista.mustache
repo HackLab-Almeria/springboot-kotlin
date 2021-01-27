@@ -1,0 +1,11 @@
+{{>header}}
+<h1>Lista de Pokemons</h1>
+
+<table>
+    <tr><th>Nombre</th><th>Tipo</th></tr>
+    {{#pokemons}}
+    <tr><td><a href="/pokemon/{{id}}">{{nombre}}</a></td><td>{{tipo}}</td></tr>
+    {{/pokemons}}
+</table>
+
+{{>footer}}
