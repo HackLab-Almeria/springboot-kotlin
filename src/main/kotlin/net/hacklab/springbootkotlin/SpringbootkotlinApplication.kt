@@ -1,5 +1,6 @@
 package net.hacklab.springbootkotlin
 
+import org.springframework.boot.Banner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
@@ -7,5 +8,7 @@ import org.springframework.boot.runApplication
 class SpringbootkotlinApplication
 
 fun main(args: Array<String>) {
-	runApplication<SpringbootkotlinApplication>(*args)
+	runApplication<SpringbootkotlinApplication>(*args){
+		setBannerMode(Banner.Mode.OFF)
+	}
 }
