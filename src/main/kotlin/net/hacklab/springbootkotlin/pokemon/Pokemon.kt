@@ -1,6 +1,19 @@
 package net.hacklab.springbootkotlin.pokemon
 
-class Pokemon(var id: Int, var name: String, var type: String) {
+import javax.persistence.Entity
+import javax.persistence.Id
+import javax.persistence.OneToMany
+import javax.persistence.Table
 
 
-}
+@Entity
+@Table(name = "pokemons")
+class Pokemon(
+    @Id var id: Int = 0,
+    var name: String = "",
+    var type: String = "",
+
+
+    @OneToMany()
+    var attacks: MutableList<Attack> = ArrayList()
+)

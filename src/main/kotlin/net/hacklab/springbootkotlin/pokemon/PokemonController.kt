@@ -1,29 +1,36 @@
 package net.hacklab.springbootkotlin.pokemon
 
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 
 @RestController
 @RequestMapping("/api/pokemon/")
-class PokemonController {
+class PokemonController(
+    val pokemonRepository: PokemonRepository,
+    val attackRepository: AttackRepository
+) {
 
 
     @GetMapping("/")
-    fun list(@RequestParam type: String?): List<Pokemon> {
+    fun list(@RequestParam type: String?, page: Pageable): Page<Pokemon> {
+
 
         if (type == null)
-            return POKEMONS
+            return pokemonRepository.findAll(page)
 
 
-        return POKEMONS.filter { it.type == type }
+        return pokemonRepository.findAllByType(type, page)
     }
 
 
     @PostMapping("/")
     fun create(@RequestBody pokemon: Pokemon): Pokemon {
-        POKEMONS.add(pokemon)
-        POKEMONS.sortBy { it.id }
+
+        pokemonRepository.save(pokemon)
 
         return pokemon
     }
@@ -31,7 +38,7 @@ class PokemonController {
 
     @GetMapping("/{id}")
     fun get(@PathVariable id: Int): Pokemon {
-        return POKEMONS.firstOrNull { it.id == id } ?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
+        return pokemonRepository.findByIdOrNull(id) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
     }
 
 
@@ -42,6 +49,8 @@ class PokemonController {
         old.name = pokemon.name
         old.type = pokemon.type
 
+        pokemonRepository.save(old)
+
         return old
     }
 
@@ -50,16 +59,21 @@ class PokemonController {
     fun delete(@PathVariable id: Int) {
         val pokemon = get(id)
 
-        POKEMONS.remove(pokemon)
+        pokemonRepository.delete(pokemon)
     }
 
 
-    companion object {
-        val POKEMONS = arrayListOf(
-            Pokemon(1, "Bulbasaur", "plant"),
-            Pokemon(4, "Charmander", "fire"),
-            Pokemon(7, "Squirtle", "water")
-        )
+    @PostMapping("/{id}/attack/")
+    fun addAttack(@RequestBody attack: Attack, @PathVariable id: Int): Pokemon {
+        val pokemon = get(id)
+
+        pokemon.attacks.add(attack)
+
+        attackRepository.save(attack)
+        pokemonRepository.save(pokemon)
+
+        return pokemon
     }
+
 
 }
