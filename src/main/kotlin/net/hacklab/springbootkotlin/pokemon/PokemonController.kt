@@ -1,5 +1,6 @@
 package net.hacklab.springbootkotlin.pokemon
 
+import com.querydsl.core.BooleanBuilder
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
@@ -16,14 +17,23 @@ class PokemonController(
 
 
     @GetMapping("/")
-    fun list(@RequestParam type: String?, page: Pageable): Page<Pokemon> {
+    fun list(
+        @RequestParam type: String?,
+        @RequestParam attack: String?,
+        page: Pageable
+    ): Page<Pokemon> {
+
+        val p = QPokemon.pokemon
+        val query = BooleanBuilder()
+
+        if (type != null)
+            query.and(p.type.equalsIgnoreCase(type))
+
+        if (attack != null)
+            query.and(p.attacks.any().name.equalsIgnoreCase(attack))
 
 
-        if (type == null)
-            return pokemonRepository.findAll(page)
-
-
-        return pokemonRepository.findAllByType(type, page)
+        return pokemonRepository.findAll(query, page)
     }
 
 

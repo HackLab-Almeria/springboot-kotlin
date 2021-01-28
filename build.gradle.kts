@@ -5,6 +5,8 @@ plugins {
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
 	kotlin("jvm") version "1.4.21"
 	kotlin("plugin.spring") version "1.4.21"
+	kotlin("kapt") version "1.4.21"
+
 }
 
 group = "net.hacklab"
@@ -20,8 +22,16 @@ dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
 
+	//Spring Data
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	runtimeOnly("mysql:mysql-connector-java")
+
+
+	//Query DSL
+	implementation("com.querydsl:querydsl-apt:4.3.1")
+	implementation("com.querydsl:querydsl-jpa:4.3.1")
+	implementation("com.querydsl:querydsl-apt:4.3.1:jpa")
+	kapt("com.querydsl:querydsl-apt:4.3.1:jpa")
 
 
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
