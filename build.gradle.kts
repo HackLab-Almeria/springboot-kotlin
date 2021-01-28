@@ -26,6 +26,8 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	runtimeOnly("mysql:mysql-connector-java")
 
+	//PostgresSQL
+	runtimeOnly("org.postgresql:postgresql")
 
 	//Query DSL
 	implementation("com.querydsl:querydsl-apt:4.3.1")
