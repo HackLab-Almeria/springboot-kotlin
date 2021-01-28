@@ -10,5 +10,11 @@ import org.springframework.web.bind.annotation.RestController
 class HelloBoot {
 
     @GetMapping("/greeting")
-    fun greeting(@RequestParam(value="name", defaultValue = "World")name:String)= "Hello $name"
+    fun greeting(@RequestParam(value="name", defaultValue = "World")name:String):String{
+
+        return if (name=="Cris")
+            "Hello $name; instálate Telegram"
+        else
+            "Hello $name"
+    }
 }
