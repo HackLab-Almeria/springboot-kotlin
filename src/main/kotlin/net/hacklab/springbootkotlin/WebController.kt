@@ -15,22 +15,24 @@ import org.springframework.web.server.ResponseStatusException
 
 @Controller
 @RequestMapping("/web")
-class WebController(private val pokemonRepository: PokemonRepository,
-                    private val atackRepository: PokemonRepository) {
+class WebController(
+    private val pokemonRepository: PokemonRepository,
+    private val attackRepository: PokemonRepository
+) {
 
     @GetMapping("/pokemon")
-    fun blog(model: Model):String{
-        model["title"]="Pokemon"
-        model["pokemons"]=pokemonRepository.findAll()
+    fun blog(model: Model): String {
+        model["title"] = "Pokemon"
+        model["pokemons"] = pokemonRepository.findAll()
         return "pokelista"
     }
 
     @GetMapping("/pokemon/{id}")
-    fun pokemon(@PathVariable id:Int, model: Model):String{
-        model["title"]="Detalle Pokemon"
-        val pokemon = pokemonRepository.findByIdOrNull(id)?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
-        model["pokemon"]=pokemon
-        model["ataques"]= pokemon.attacks
+    fun pokemon(@PathVariable id: Int, model: Model): String {
+        model["title"] = "Detalle Pokemon"
+        val pokemon = pokemonRepository.findByIdOrNull(id) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
+        model["pokemon"] = pokemon
+        model["ataques"] = pokemon.attacks
         return "pokemon"
     }
 
