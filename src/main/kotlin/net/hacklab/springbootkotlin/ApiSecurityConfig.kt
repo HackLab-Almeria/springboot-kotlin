@@ -15,7 +15,11 @@ class ApiSecurityConfig: WebSecurityConfigurerAdapter() {
     }
 
     override fun configure(auth: AuthenticationManagerBuilder) {
-        auth.inMemoryAuthentication().withUser("admin").password("{noop}admin").roles("USER")
+        auth.inMemoryAuthentication()
+            .withUser("admin").password("{noop}admin").roles("USER", "ADMIN")
+
+        auth.inMemoryAuthentication()
+            .withUser("admin").password("{noop}admin").roles("USER")
     }
 
 }
