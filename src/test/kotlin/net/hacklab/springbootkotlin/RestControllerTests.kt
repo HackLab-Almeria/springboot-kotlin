@@ -29,11 +29,11 @@ class RestControllerTests(@Autowired val restTemplate: TestRestTemplate) {
             HttpMethod.GET,HttpEntity<String>(createHttpHeaders("admin","admin"))
             , String.javaClass )
         assertThat(entity.statusCode).isEqualTo(HttpStatus.OK)
-        assertThat(entity.body).isNotNull()
+        assertThat(entity.body).isNotNull
     }
 
     fun createHttpHeaders(user:String, pass:String):HttpHeaders {
-        var headers=HttpHeaders()
+        val headers=HttpHeaders()
         headers.add("Authorization",
             "Basic " + Base64.getEncoder().encodeToString("$user:$pass".toByteArray()))
 
