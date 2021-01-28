@@ -15,7 +15,8 @@ data class Pokemon(var id: Int,var nombre:String, var tipo:String)
 
 @Controller
 @RequestMapping("/web")
-class WebController(private val pokemonRepository: PokemonRepository) {
+class WebController(private val pokemonRepository: PokemonRepository,
+                    private val atackRepository: PokemonRepository) {
 
     @GetMapping("/pokemon")
     fun blog(model: Model):String{
@@ -30,7 +31,9 @@ class WebController(private val pokemonRepository: PokemonRepository) {
     @GetMapping("/pokemon/{id}")
     fun pokemon(@PathVariable id:Int, model: Model):String{
         model["title"]="Detalle Pokemon"
-        model["pokemon"]=pokemonRepository.findByIdOrNull(id)?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
+        var pokemon = pokemonRepository.findByIdOrNull(id)?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
+        model["pokemon"]=pokemon
+        model["ataques"]= pokemon.attacks
         return "pokemon"
     }
 

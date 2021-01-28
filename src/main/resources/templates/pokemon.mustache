@@ -2,4 +2,16 @@
 <h1>Detalle Pokemon</h1>
 <h2>{{pokemon.name}}</h2>
 <p><b>Tipo:</b>{{pokemon.type}}</p>
+
+<h3>Ataques</h3>
+    <table>
+        <tr><th>Nombre</th><th>PP</th></tr>
+
+        {{#ataques}}
+            <tr>
+                <td>{{name}}</td>
+                <td>{{pp}}</td>
+            </tr>
+        {{/ataques}}
+    </table>
 {{>footer}}
