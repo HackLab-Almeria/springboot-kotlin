@@ -10,7 +10,7 @@ data class Greeting(var response:String)
 class HelloBoot {
 
     @GetMapping("/greeting")
-    fun greeting(@RequestParam(value="name", defaultValue = "World")name:String):String{
+    fun greeting(@RequestParam(value="name", defaultValue = "World")name:String):Greeting{
 
         return if (name=="Cris")
             Greeting("Hello $name; instálate Telegram")
