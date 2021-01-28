@@ -1,5 +1,6 @@
 package net.hacklab.springbootkotlin
 
+import net.hacklab.springbootkotlin.pokemon.Pokemon
 import net.hacklab.springbootkotlin.pokemon.PokemonRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.server.ResponseStatusException
 
-data class Pokemon(var id: Int,var nombre:String, var tipo:String)
 
 @Controller
 @RequestMapping("/web")
@@ -21,9 +21,6 @@ class WebController(private val pokemonRepository: PokemonRepository,
     @GetMapping("/pokemon")
     fun blog(model: Model):String{
         model["title"]="Pokemon"
-        val listaPokemons = listOf<Pokemon>(Pokemon(1,"Pikachu","Rayo"),
-            Pokemon(2,"Squirtle", "Agua")
-        )
         model["pokemons"]=pokemonRepository.findAll()
         return "pokelista"
     }
