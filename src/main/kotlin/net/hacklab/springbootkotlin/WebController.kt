@@ -28,7 +28,7 @@ class WebController(private val pokemonRepository: PokemonRepository,
     @GetMapping("/pokemon/{id}")
     fun pokemon(@PathVariable id:Int, model: Model):String{
         model["title"]="Detalle Pokemon"
-        var pokemon = pokemonRepository.findByIdOrNull(id)?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
+        val pokemon = pokemonRepository.findByIdOrNull(id)?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
         model["pokemon"]=pokemon
         model["ataques"]= pokemon.attacks
         return "pokemon"
